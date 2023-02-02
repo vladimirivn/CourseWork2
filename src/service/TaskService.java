@@ -1,0 +1,38 @@
+package service;
+
+import exception.TaskNotFoundException;
+import tasks.Task;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.*;
+
+public class TaskService {
+
+    private final Map<Integer, Task> taskMap = new HashMap<>();
+
+    public void add(Task task) {
+        this.taskMap.put(task.getId(), task);
+    }
+
+    public void remove(int id) throws TaskNotFoundException {
+        if (this.taskMap.containsKey(id)) {
+            this.taskMap.remove(id);
+            System.out.println("Задача №" + id + " удалена");
+        } else {
+            throw new TaskNotFoundException("Задача №" + id + " не найдена!");
+        }
+    }
+
+    public Collection<Task> getAllByDate(LocalDate date){
+
+        List<Task> tasksByDay = new LinkedList<>();
+        for (Map.Entry<Integer, Task> entry : taskMap.entrySet()) {
+            if (entry.getValue().appearsIn(date)) {
+                tasksByDay.add(entry.getValue());
+            }
+        }
+          return tasksByDay;
+    }
+
+}
