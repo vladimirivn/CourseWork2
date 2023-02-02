@@ -2,6 +2,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
@@ -44,6 +46,8 @@ public class Main {
                         case 5:
                             updateTask(scanner);
                             break;
+                        case 6:
+                            getAllTasksSortedByDate();;
                         case 0:
                             break label;
                     }
@@ -57,7 +61,7 @@ public class Main {
 
     private static void printMenu() {
         System.out.println("1. Добавить задачу\n2. Удалить задачу\n3. Получить задачу на указанный день\n" +
-                "4. Получить все удаленные задачи\n5. Изменить название и описание задачи\n0. Выход");
+                "4. Получить все удаленные задачи\n5. Изменить название и описание задачи\n6. Получить задачи сгруппированные по датам\n0. Выход");
 
     }
 
@@ -244,6 +248,15 @@ public class Main {
             System.out.print("Неверен формат даты!");
             scanner.next();
             System.out.println();
+        }
+    }
+    private static void getAllTasksSortedByDate(){
+        Map<LocalDate, List<Task>> tasks = taskService.getAllSortedByDate();
+        for (LocalDate date : tasks.keySet()){
+            System.out.println("На дату: " + date);
+            for (Task task : tasks.get(date)){
+                System.out.println(task);
+            }
         }
     }
 }

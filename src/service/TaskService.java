@@ -44,6 +44,16 @@ public class TaskService {
           return tasksByDay;
     }
 
+    public Map<LocalDate, List<Task>> getAllSortedByDate() {
+        Map<LocalDate, List<Task>> tasksSortedByDate = new TreeMap<>();
+        for (Task task : taskMap.values()) {
+            if (!tasksSortedByDate.containsKey(task.getDateTimeOfCompletion().toLocalDate())) {
+                tasksSortedByDate.put(task.getDateTimeOfCompletion().toLocalDate(), new ArrayList<>());
+            }
+            tasksSortedByDate.get(task.getDateTimeOfCompletion().toLocalDate()).add(task);
+        }
+        return tasksSortedByDate;
+    }
     public ArrayList<Task> getRemovedTasks() {
         return removedTasks;
     }
