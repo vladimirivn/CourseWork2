@@ -1,5 +1,6 @@
 package service;
 
+import exception.IncorrectArgumentException;
 import exception.TaskNotFoundException;
 import tasks.Task;
 
@@ -10,6 +11,7 @@ import java.util.*;
 public class TaskService {
 
     private final Map<Integer, Task> taskMap = new HashMap<>();
+    private ArrayList<Task> removedTasks = new ArrayList<>();
 
     public void add(Task task) {
         this.taskMap.put(task.getId(), task);
@@ -17,13 +19,20 @@ public class TaskService {
 
     public void remove(int id) throws TaskNotFoundException {
         if (this.taskMap.containsKey(id)) {
+            removedTasks.add(taskMap.get(id));
             this.taskMap.remove(id);
             System.out.println("Задача №" + id + " удалена");
         } else {
             throw new TaskNotFoundException("Задача №" + id + " не найдена!");
         }
     }
-
+    public Task getTaskId(int id) throws IncorrectArgumentException {
+        if (taskMap.containsKey(id)) {
+            return taskMap.get(id);
+        } else {
+            throw new IncorrectArgumentException("Задача №" + id + " не найдена!");
+        }
+    }
     public Collection<Task> getAllByDate(LocalDate date){
 
         List<Task> tasksByDay = new LinkedList<>();
@@ -35,4 +44,7 @@ public class TaskService {
           return tasksByDay;
     }
 
+    public ArrayList<Task> getRemovedTasks() {
+        return removedTasks;
+    }
 }

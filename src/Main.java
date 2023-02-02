@@ -38,6 +38,12 @@ public class Main {
                         case 3:
                             getAllTasksByDate(scanner);
                             break;
+                        case 4:
+                            getAllDeletedTasks();
+                            break;
+                        case 5:
+                            updateTask(scanner);
+                            break;
                         case 0:
                             break label;
                     }
@@ -50,7 +56,8 @@ public class Main {
     }
 
     private static void printMenu() {
-        System.out.println("1. Добавить задачу\n2. Удалить задачу\n3. Получить задачу на указанный день\n0. Выход");
+        System.out.println("1. Добавить задачу\n2. Удалить задачу\n3. Получить задачу на указанный день\n" +
+                "4. Получить все удаленные задачи\n5. Изменить название и описание задачи\n0. Выход");
 
     }
 
@@ -103,17 +110,17 @@ public class Main {
 
         int taskType = scanner.nextInt();
 
-            switch (taskType) {
-                case 1:
-                    type = TaskType.WORK;
-                    break;
-                case 2:
-                    type = TaskType.PERSONAL;
-                    break;
-                default:
-                    System.out.println("Тип задачи введен некорректно!");
-                    break;
-            }
+        switch (taskType) {
+            case 1:
+                type = TaskType.WORK;
+                break;
+            case 2:
+                type = TaskType.PERSONAL;
+                break;
+            default:
+                System.out.println("Тип задачи введен некорректно!");
+                break;
+        }
 
         return type;
     }
@@ -177,14 +184,43 @@ public class Main {
         }
     }
 
+    private static void updateTask(Scanner scanner) {
+        System.out.print("Введите № задачи: ");
+        int id = scanner.nextInt();
+
+        try {
+            Task task = taskService.getTaskId(id);
+            String title = inputTitleTask(scanner);
+            String description = inputDescriptionTask(scanner);
+            task.setTitle(title);
+            task.setDescription(description);
+            System.out.println("Задача №" + id + " обновлена");
+        } catch (IncorrectArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
     private static void deleteTask(Scanner scanner) {
-        System.out.print("Введите id задачи: ");
+        System.out.print("Введите № задачи: ");
         int id = scanner.nextInt();
 
         try {
             taskService.remove(id);
         } catch (TaskNotFoundException e) {
             System.out.println(e.getMessage());
+        }
+    }
+
+    private static void getAllDeletedTasks() {
+
+        Task[] tasks = taskService.getRemovedTasks().toArray(new Task[0]);
+        if (tasks.length != 0) {
+            System.out.println("Удалённые задачи:");
+            for (Task task : tasks) {
+                System.out.println(task);
+            }
+        } else {
+            System.out.println("Нет удаленных задач!");
         }
     }
 
