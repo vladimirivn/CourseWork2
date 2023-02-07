@@ -23,8 +23,8 @@ public class OneTimeTask extends Task {
         return date.equals(getDateTimeOfCompletion().toLocalDate());
     }
 
-    @Override
-    public String toString() {
-        return super.toString();
-    }
+//    @Override
+//    public String toString() {
+//        return super.toString();
+//    }
 }

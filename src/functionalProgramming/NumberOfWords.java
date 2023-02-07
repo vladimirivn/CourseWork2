@@ -8,12 +8,12 @@ public class NumberOfWords {
 
     public static void main(String[] args) {
 
-        TreeMap<String, Integer> wordsMap = new TreeMap<>();
+        Map<String, Integer> wordsMap = new TreeMap<>();
         Scanner scanner = new Scanner(System.in);
 
         System.out.print("Введите текст : ");
         String str = scanner.nextLine();
-        String[] words = str.split(" ",0);
+        String[] words = str.split(" ");
 
         for (String word : words) {
 //            System.out.println(word);

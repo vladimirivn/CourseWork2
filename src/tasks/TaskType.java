@@ -4,7 +4,7 @@ public enum TaskType {
     WORK("Рабочая"),
     PERSONAL("Личная");
 
-    private String nameTaskType;
+    private final String nameTaskType;
 
     TaskType(String nameTaskType) {
         this.nameTaskType = nameTaskType;

@@ -19,7 +19,7 @@ public class Main {
 
     private static final Pattern DATE_PATTERN = Pattern.compile("\\d{2}\\.\\d{2}\\.\\d{4}");
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-    private static final TaskService taskService = new TaskService();
+    private static final TaskService TASK_SERVICE = new TaskService();
 
     public static void main(String[] args) {
 
@@ -179,7 +179,7 @@ public class Main {
             System.out.println(e.getMessage());
         }
         if (task != null) {
-            taskService.add(task);
+            TASK_SERVICE.add(task);
             System.out.println("Задача успешно добавлена:");
             System.out.println(task);
             System.out.println();
@@ -193,7 +193,7 @@ public class Main {
         int id = scanner.nextInt();
 
         try {
-            Task task = taskService.getTaskId(id);
+            Task task = TASK_SERVICE.getTaskId(id);
             String title = inputTitleTask(scanner);
             String description = inputDescriptionTask(scanner);
             task.setTitle(title);
@@ -209,7 +209,7 @@ public class Main {
         int id = scanner.nextInt();
 
         try {
-            taskService.remove(id);
+            TASK_SERVICE.remove(id);
         } catch (TaskNotFoundException e) {
             System.out.println(e.getMessage());
         }
@@ -217,7 +217,7 @@ public class Main {
 
     private static void getAllDeletedTasks() {
 
-        Task[] tasks = taskService.getRemovedTasks().toArray(new Task[0]);
+        Task[] tasks = TASK_SERVICE.getRemovedTasks().toArray(new Task[0]);
         if (tasks.length != 0) {
             System.out.println("Удалённые задачи:");
             for (Task task : tasks) {
@@ -236,7 +236,7 @@ public class Main {
             String dateTime = scanner.next(DATE_PATTERN);
             LocalDate inputDate = LocalDate.parse(dateTime, DATE_FORMATTER);
 
-            Collection<Task> tasks = taskService.getAllByDate(inputDate);
+            Collection<Task> tasks = TASK_SERVICE.getAllByDate(inputDate);
             if (tasks.isEmpty()) {
                 System.out.println("На дату: " + inputDate.toString() + " задач нет");
             } else {
@@ -251,7 +251,7 @@ public class Main {
         }
     }
     private static void getAllTasksSortedByDate(){
-        Map<LocalDate, List<Task>> tasks = taskService.getAllSortedByDate();
+        Map<LocalDate, List<Task>> tasks = TASK_SERVICE.getAllSortedByDate();
         for (LocalDate date : tasks.keySet()){
             System.out.println("На дату: " + date);
             for (Task task : tasks.get(date)){

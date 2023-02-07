@@ -11,7 +11,7 @@ import java.util.*;
 public class TaskService {
 
     private final Map<Integer, Task> taskMap = new HashMap<>();
-    private ArrayList<Task> removedTasks = new ArrayList<>();
+    private final List<Task> removedTasks = new ArrayList<>();
 
     public void add(Task task) {
         this.taskMap.put(task.getId(), task);
@@ -19,7 +19,8 @@ public class TaskService {
 
     public void remove(int id) throws TaskNotFoundException {
         if (this.taskMap.containsKey(id)) {
-            removedTasks.add(taskMap.get(id));
+//            removedTasks.add(taskMap.get(id));
+            removedTasks.add(taskMap.remove(id));
             this.taskMap.remove(id);
             System.out.println("Задача №" + id + " удалена");
         } else {
@@ -54,7 +55,7 @@ public class TaskService {
         }
         return tasksSortedByDate;
     }
-    public ArrayList<Task> getRemovedTasks() {
+    public List<Task> getRemovedTasks() {
         return removedTasks;
     }
 }
